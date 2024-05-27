@@ -39,7 +39,6 @@ namespace Labsit.Api.Extensions
         internal static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             return services
-                .AddScoped<IDbSeeder, DbSeeder>()
                 .AddScoped<IUnitOfWork, UnitOfWork>();
         }
 

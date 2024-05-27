@@ -5,7 +5,6 @@ using Labsit.Application.Extensions;
 using Labsit.Application.Features.Customer.Commands;
 using Labsit.Application.Features.Customer.Responses;
 using Labsit.Domain.Contracts.Repositories;
-using Labsit.Domain.Factories;
 using MediatR;
 
 namespace Labsit.Application.Features.Customer.Handlers

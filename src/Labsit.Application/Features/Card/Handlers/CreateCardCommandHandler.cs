@@ -6,7 +6,6 @@ using Labsit.Application.Features.Card.Command;
 using Labsit.Application.Features.Card.Responses;
 using Labsit.Domain.Contracts.Repositories;
 using Labsit.Domain.Enums;
-using Labsit.Domain.Factories;
 using MediatR;
 
 namespace Labsit.Application.Features.Card.Handlers
@@ -50,7 +49,7 @@ namespace Labsit.Application.Features.Card.Handlers
             var brand = request.Brand.HasValue ? request.Brand.Value : DEFAULT_BRAND;
             var verificationCode = new Random().Next(100, 999).ToString();
 
-            var card = CardFactory.Create(request.BankAccountId, cardNumber, holderName, verificationCode, brand, expiryDate);
+            var card = new Domain.Entities.Card(request.BankAccountId, cardNumber, holderName, verificationCode, brand, expiryDate);
             await cardRepository.Add(card);
 
             await unitOfWork.Commit(cancellationToken);
