@@ -13,7 +13,7 @@ services:
   tests:
     build:
       context: .
-      dockerfile: src/Labsit.Test/Dockerfile
+      dockerfile: src/Labsit.Tests/Dockerfile
       target: test
     volumes:
       - ./tests/TestResults:/src/TestResults
