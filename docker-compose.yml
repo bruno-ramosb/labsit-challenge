@@ -1,0 +1,20 @@
+services:
+  api:
+    image: labsit-webapi
+    container_name: labsit-webapi
+    restart: always
+    build:
+      context: .
+      dockerfile: src/Labsit.Api/Dockerfile
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+  tests:
+    build:
+      context: .
+      dockerfile: src/Labsit.Test/Dockerfile
+      target: test
+    volumes:
+      - ./tests/TestResults:/src/TestResults
+    command: ["dotnet", "test", "--logger:trx"]

@@ -7,7 +7,6 @@ namespace Labsit.Application.Features.Transaction.Command
 {
     public class CreateTransactionCommand : IRequest<Result<CreateTransactionResponse>>
     {
-        public CreateTransactionCommand() { }
         public CreateTransactionCommand(string description, decimal price, CardDto card)
         {
             Description = description;

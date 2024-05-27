@@ -23,6 +23,17 @@ namespace Labsit.Application.Features.BankAccount.Handlers
             if(bankAccount is null)
                 return Result<WithdrawResponse>.Fail(Messages.BANK_ACCOUNT_NOT_FOUND);
 
+            var withdraw = await Withdraw(bankAccount, request,cancellationToken);
+            if(!withdraw.isValid)
+                return Result<WithdrawResponse>.Fail(withdraw.notifications);
+
+            var response = new WithdrawResponse(bankAccount.Id, bankAccount.Balance, bankAccount.TotalCreditLimit, bankAccount.AvailableCreditLimit);
+
+            return Result<WithdrawResponse>.Successful(response);
+        }
+
+        private async Task<(bool isValid, List<string> notifications)> Withdraw(Domain.Entities.BankAccount bankAccount, WithdrawCommand request,CancellationToken cancellationToken)
+        {
             switch (request.TransactionType)
             {
                 case ETransactionType.Debit:
@@ -34,16 +45,13 @@ namespace Labsit.Application.Features.BankAccount.Handlers
             }
 
             if (bankAccount.Balance < 0 || bankAccount.AvailableCreditLimit < 0)
-                return Result<WithdrawResponse>.Fail(Messages.INSUFFICIENT_FUNDS);
-
+                return (false, new List<string>() { Messages.INSUFFICIENT_FUNDS });
 
             await bankAccountRepository.Update(bankAccount);
-
             await unitOfWork.Commit(cancellationToken);
 
-            var response = new WithdrawResponse(bankAccount.Id, bankAccount.Balance, bankAccount.TotalCreditLimit, bankAccount.AvailableCreditLimit);
-
-            return Result<WithdrawResponse>.Successful(response);
+            return (true, new());
         }
+
     }
 }

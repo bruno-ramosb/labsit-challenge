@@ -1,5 +1,6 @@
 ﻿using Labsit.Domain.Contracts.Entities;
 using Labsit.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Labsit.Domain.Entities
@@ -17,13 +18,24 @@ namespace Labsit.Domain.Entities
             ExpiryDate = expiryDate;
         }
 
-        public string Number { get; set; }
-        public string HolderName { get; set; }
-        public ECardBrand Brand { get; set; }
-        public DateOnly ExpiryDate { get; set; }
-        public string VerificationCode { get; set; }
+        [Required]
+        [MaxLength(16)]
+        public string Number { get; private set; }
 
-        public int BankAccountId { get; set; }
+        [MaxLength(80)]
+        public string HolderName { get; private set; }
+
+        [Required]
+        public ECardBrand Brand { get; private set; }
+
+        [Required]
+        public DateOnly ExpiryDate { get; private set; }
+
+        [MaxLength(3)]
+        public string VerificationCode { get; private set; }
+
+        [ForeignKey("BankAccountId")]
+        public int BankAccountId { get; private set; }
         public BankAccount BankAccount { get; set; }
     }
 }

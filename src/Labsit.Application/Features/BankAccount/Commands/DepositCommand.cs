@@ -7,8 +7,6 @@ namespace Labsit.Application.Features.BankAccount.Commands
 {
     public class DepositCommand : IRequest<Result<DepositResponse>>
     {
-        public DepositCommand() { }
-
         public DepositCommand(int bankAccountId,decimal value, ETransactionType transactionType)
         {
             BankAccountId = bankAccountId;

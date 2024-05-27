@@ -1,5 +1,4 @@
 ﻿using Labsit.Domain.Entities;
-using Labsit.Infrastructure.Repositories;
 
 namespace Labsit.Domain.Contracts.Repositories
 {

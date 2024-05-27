@@ -1,5 +1,6 @@
 ﻿using Labsit.Application;
 using Labsit.Domain.Contracts.Repositories;
+using Labsit.Infrastructure;
 using Labsit.Infrastructure.Context;
 using Labsit.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,7 @@ namespace Labsit.Api.Extensions
         internal static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             return services
+                .AddScoped<IDbSeeder, DbSeeder>()
                 .AddScoped<IUnitOfWork, UnitOfWork>();
         }
 

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace Labsit.Api.Extensions
+namespace Labsit.Api.Helper
 {
     internal static class ResultHelper
     {

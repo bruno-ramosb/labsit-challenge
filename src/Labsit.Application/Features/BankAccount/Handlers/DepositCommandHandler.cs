@@ -4,8 +4,10 @@ using Labsit.Application.Common.Response;
 using Labsit.Application.Features.BankAccount.Commands;
 using Labsit.Application.Features.BankAccount.Responses;
 using Labsit.Domain.Contracts.Repositories;
+using Labsit.Domain.Entities;
 using Labsit.Domain.Enums;
 using MediatR;
+using System.Threading;
 
 namespace Labsit.Application.Features.BankAccount.Handlers
 {
@@ -20,9 +22,18 @@ namespace Labsit.Application.Features.BankAccount.Handlers
                 return Result<DepositResponse>.Fail(validationResult.Errors);
 
             var bankAccount = await bankAccountRepository.GetByIdAsync(request.BankAccountId);
-            if(bankAccount is null)
+            if (bankAccount is null)
                 return Result<DepositResponse>.Fail(Messages.BANK_ACCOUNT_NOT_FOUND);
 
+            await Deposit(bankAccount,request,cancellationToken);
+
+            var response = new DepositResponse(bankAccount.Id, bankAccount.Balance, bankAccount.TotalCreditLimit, bankAccount.AvailableCreditLimit);
+
+            return Result<DepositResponse>.Successful(response);
+        }
+
+        private async Task Deposit(Domain.Entities.BankAccount bankAccount, DepositCommand request, CancellationToken cancellationToken)
+        {
             switch (request.TransactionType)
             {
                 case ETransactionType.Debit:
@@ -35,12 +46,7 @@ namespace Labsit.Application.Features.BankAccount.Handlers
             }
 
             await bankAccountRepository.Update(bankAccount);
-
             await unitOfWork.Commit(cancellationToken);
-
-            var response = new DepositResponse(bankAccount.Id, bankAccount.Balance, bankAccount.TotalCreditLimit, bankAccount.AvailableCreditLimit);
-
-            return Result<DepositResponse>.Successful(response);
         }
     }
 }

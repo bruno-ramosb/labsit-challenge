@@ -21,20 +21,24 @@ namespace Labsit.Application.Features.Customer.Handlers
             if (!validationResult.IsValid)
                 return Result<CreateCustomerResponse>.Fail(validationResult.Errors);
 
-            var documentNumber = request.Document.GetOnlyNumbers();
-
-            if (await repository.IsDocumentInUse(documentNumber))
+            if (await repository.IsDocumentInUse(request.Document.GetOnlyNumbers()))
                 return Result<CreateCustomerResponse>.Fail(Messages.DOCUMENT_ALREADY_IN_USE);
 
-            var customer = CustomerFactory.Create(request.Name, documentNumber, request.DateOfBirth);
-
-            await repository.Add(customer);
-
-            await unitOfWork.Commit(cancellationToken);
+            var customer = await CreateCustomer(request,cancellationToken);
 
             var response = new CreateCustomerResponse(customer.Id);
 
             return Result<CreateCustomerResponse>.Successful(response);
+        }
+
+        private async Task<Domain.Entities.Customer> CreateCustomer(CreateCustomerCommand request, CancellationToken cancellationToken)
+        {
+            var customer = new Domain.Entities.Customer(request.Name, request.Document.GetOnlyNumbers(), request.DateOfBirth);
+
+            await repository.Add(customer);
+            await unitOfWork.Commit(cancellationToken);
+
+            return customer;
         }
     }
 }

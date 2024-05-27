@@ -1,7 +1,8 @@
 ﻿using FluentValidation;
 using Labsit.Application.Common.Constants;
+using Labsit.Application.Features.BankAccount.Commands;
 
-namespace Labsit.Application.Features.BankAccount.Commands
+namespace Labsit.Application.Features.BankAccount.Validators
 {
     public class WithdrawCommandValidator : AbstractValidator<WithdrawCommand>
     {

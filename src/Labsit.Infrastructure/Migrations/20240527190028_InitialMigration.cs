@@ -21,8 +21,8 @@ namespace Labsit.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Document = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Document = table.Column<string>(type: "TEXT", maxLength: 11, nullable: false),
                     DateOfBirth = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
@@ -67,11 +67,11 @@ namespace Labsit.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Number = table.Column<string>(type: "TEXT", nullable: false),
-                    HolderName = table.Column<string>(type: "TEXT", nullable: false),
+                    Number = table.Column<string>(type: "TEXT", maxLength: 16, nullable: false),
+                    HolderName = table.Column<string>(type: "TEXT", maxLength: 80, nullable: false),
                     Brand = table.Column<int>(type: "INTEGER", nullable: false),
                     ExpiryDate = table.Column<DateOnly>(type: "TEXT", nullable: false),
-                    VerificationCode = table.Column<string>(type: "TEXT", nullable: false),
+                    VerificationCode = table.Column<string>(type: "TEXT", maxLength: 3, nullable: false),
                     BankAccountId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)

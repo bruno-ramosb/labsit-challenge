@@ -83,11 +83,13 @@ namespace Labsit.Infrastructure.Migrations
 
                     b.Property<string>("HolderName")
                         .IsRequired()
+                        .HasMaxLength(80)
                         .HasColumnType("TEXT")
                         .HasColumnName("HolderName");
 
                     b.Property<string>("Number")
                         .IsRequired()
+                        .HasMaxLength(16)
                         .HasColumnType("TEXT")
                         .HasColumnName("Number");
 
@@ -96,6 +98,7 @@ namespace Labsit.Infrastructure.Migrations
 
                     b.Property<string>("VerificationCode")
                         .IsRequired()
+                        .HasMaxLength(3)
                         .HasColumnType("TEXT")
                         .HasColumnName("VerificationCode");
 
@@ -122,11 +125,13 @@ namespace Labsit.Infrastructure.Migrations
 
                     b.Property<string>("Document")
                         .IsRequired()
+                        .HasMaxLength(11)
                         .HasColumnType("TEXT")
                         .HasColumnName("Document");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT")
                         .HasColumnName("Name");
 

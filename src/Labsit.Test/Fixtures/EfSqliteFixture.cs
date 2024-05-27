@@ -1,6 +1,6 @@
 ﻿using Labsit.Domain.Entities;
-using Labsit.Domain.Enums;
 using Labsit.Infrastructure.Context;
+using Labsit.Test._Builders;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,8 +57,8 @@ namespace Labsit.Test.Fixtures
         {
             var cards = new List<Card>
             {
-                new Card(1, "5192858385719792", "Roberto S A", "123", ECardBrand.Visa, DateOnly.Parse("2040-01-01")),
-                new Card(2, "5210680963269075", "Maria R A", "123", ECardBrand.MasterCard, DateOnly.Parse("2040-01-01"))
+                new CardBuilder().New().WithFunds().BuildCard(),
+                new CardBuilder().New().WithoutFunds().BuildCard(),
             };
             return cards;
         }
@@ -73,20 +73,13 @@ namespace Labsit.Test.Fixtures
             return customer;
         }
 
-        public static List<BankAccount> GetValidBankAccount()
+        private static List<BankAccount> GetValidBankAccount()
         {
-            var initialAmount = 1500;
-            var accountWithFunds = new BankAccount(2, "0001", new Random().Next(10000000, 100000000).ToString());
-            accountWithFunds.AddBalance(initialAmount);
-            accountWithFunds.AddAvailableCreditLimit(initialAmount);
-            accountWithFunds.AddTotalCreditLimit(initialAmount);
-
-            var bankAccount = new List<BankAccount>
+            return new List<BankAccount>
             {
-                new BankAccount(1, "0001", new Random().Next(10000000, 100000000).ToString()),
-                accountWithFunds
+                new BankAccountBuilder().New().WithFunds().Build(),
+                new BankAccountBuilder().New().WithoutFunds().Build()
             };
-            return bankAccount;
         }
 
         public Task DisposeAsync() => Task.CompletedTask;

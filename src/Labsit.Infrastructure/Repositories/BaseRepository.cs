@@ -1,4 +1,5 @@
 ﻿using Labsit.Domain.Contracts.Entities;
+using Labsit.Domain.Contracts.Repositories;
 using Labsit.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 

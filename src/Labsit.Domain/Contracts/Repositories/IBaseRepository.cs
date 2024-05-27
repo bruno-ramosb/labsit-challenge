@@ -1,6 +1,6 @@
 ﻿using Labsit.Domain.Contracts.Entities;
 
-namespace Labsit.Infrastructure.Repositories
+namespace Labsit.Domain.Contracts.Repositories
 {
     public interface IBaseRepository<TEntity, in TKey> : IDisposable
     where TEntity : IEntity<TKey>

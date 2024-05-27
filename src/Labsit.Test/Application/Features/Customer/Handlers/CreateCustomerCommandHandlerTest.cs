@@ -7,6 +7,7 @@ using Labsit.Application.Features.Customer.Handlers;
 using Labsit.Application.Features.Customer.Validators;
 using Labsit.Domain.Contracts.Repositories;
 using Labsit.Infrastructure.Repositories;
+using Labsit.Test._Builders;
 using Labsit.Test.Fixtures;
 using NSubstitute;
 
@@ -15,20 +16,20 @@ namespace Labsit.Test.Application.Features.Customer.Handlers
     public class CreateCustomerCommandHandlerTest(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
     {
         private readonly CreateCustomerCommandValidator _validator = new();
+        private readonly UnitOfWork _unitOfWork = new UnitOfWork(fixture.Context);
 
         [Fact]
         public async Task Add_ValidCommand_ShouldReturnSucessResult()
         {
             //Arrange
             var command = new Faker<CreateCustomerCommand>()
-                .RuleFor(command => command.Name, faker => faker.Person.FullName)
-                .RuleFor(command => command.Document, faker => faker.Person.Cpf())
-                .RuleFor(command => command.DateOfBirth, DateOnly.FromDateTime(DateTime.Today.AddYears(-18)))
-                .Generate();
+            .CustomInstantiator(faker => new CreateCustomerCommand(
+            faker.Person.FullName,
+            faker.Person.Cpf(),
+            DateOnly.FromDateTime(DateTime.Today.AddYears(-18))))
+            .Generate();
 
-            var unitOfWork = new UnitOfWork(fixture.Context);
-
-            var handler = new CreateCustomerCommandHandler(_validator,new CustomerRepository(fixture.Context),unitOfWork);
+            var handler = new CreateCustomerCommandHandler(_validator,new CustomerRepository(fixture.Context),_unitOfWork);
 
             // Act
             var act = await handler.Handle(command, CancellationToken.None);
@@ -44,11 +45,13 @@ namespace Labsit.Test.Application.Features.Customer.Handlers
         public async Task Add_DuplicatedDocument_ShouldReturnFailResult()
         {
             //Arrange
+            var customer = new CustomerBuilder().Build();
             var command = new Faker<CreateCustomerCommand>()
-                .RuleFor(command => command.Name, faker => faker.Person.FullName)
-                .RuleFor(command => command.Document, "93373925002")
-                .RuleFor(command => command.DateOfBirth, DateOnly.FromDateTime(DateTime.Today.AddYears(-18)))
-                .Generate();
+                .CustomInstantiator(faker => new CreateCustomerCommand(
+                    faker.Person.FullName,
+                    customer.Document,
+                    DateOnly.FromDateTime(DateTime.Today.AddYears(-18))))
+                    .Generate();
 
             var unitOfWork = new UnitOfWork(fixture.Context);
 
@@ -68,15 +71,16 @@ namespace Labsit.Test.Application.Features.Customer.Handlers
         public async Task Add_UnderAge_ShouldReturnFailResult()
         {
             //Arrange
+            var birthOfDateUnderAge = DateOnly.FromDateTime(DateTime.Today.AddYears(-18).AddDays(1));
+
             var command = new Faker<CreateCustomerCommand>()
-                .RuleFor(command => command.Name, faker => faker.Person.FullName)
-                .RuleFor(command => command.Document, faker => faker.Person.Cpf())
-                .RuleFor(command => command.DateOfBirth,DateOnly.FromDateTime(DateTime.Today.AddYears(-18).AddDays(1)))
+            .CustomInstantiator(faker => new CreateCustomerCommand(
+                faker.Person.FullName,
+                faker.Person.Cpf(),
+                birthOfDateUnderAge))
                 .Generate();
 
-            var unitOfWork = new UnitOfWork(fixture.Context);
-
-            var handler = new CreateCustomerCommandHandler(_validator, new CustomerRepository(fixture.Context), unitOfWork);
+            var handler = new CreateCustomerCommandHandler(_validator, new CustomerRepository(fixture.Context), _unitOfWork);
 
             // Act
             var act = await handler.Handle(command, CancellationToken.None);
@@ -97,7 +101,7 @@ namespace Labsit.Test.Application.Features.Customer.Handlers
                 Substitute.For<IUnitOfWork>());
 
             // Act
-            var act = await handler.Handle(new CreateCustomerCommand(), CancellationToken.None);
+            var act = await handler.Handle(new CreateCustomerCommand(default,default,default), CancellationToken.None);
 
             // Assert
             act.Should().NotBeNull();

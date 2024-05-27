@@ -35,21 +35,26 @@ namespace Labsit.Application.Features.Card.Handlers
 
             var customer = await customerRepository.GetByIdAsync(bankAccount.CustomerId);
 
+            var card = await CreateCard(customer, request, cancellationToken);
+
+            var response = new CreateCardResponse(card.Id);
+            
+            return Result<CreateCardResponse>.Successful(response);
+        }
+
+        private async Task<Domain.Entities.Card> CreateCard(Domain.Entities.Customer customer,CreateCardCommand request, CancellationToken cancellationToken)
+        {
             var cardNumber = CardExtensions.GenerateCreditCardNumber();
             var holderName = CardExtensions.GenerateHolderName(customer.Name);
             var expiryDate = DateOnly.FromDateTime(DateTime.UtcNow.AddYears(4));
             var brand = request.Brand.HasValue ? request.Brand.Value : DEFAULT_BRAND;
             var verificationCode = new Random().Next(100, 999).ToString();
 
-            var card = CardFactory.Create(request.BankAccountId, cardNumber, holderName, verificationCode,brand, expiryDate);
-
+            var card = CardFactory.Create(request.BankAccountId, cardNumber, holderName, verificationCode, brand, expiryDate);
             await cardRepository.Add(card);
 
             await unitOfWork.Commit(cancellationToken);
-
-            var response = new CreateCardResponse(card.Id);
-            
-            return Result<CreateCardResponse>.Successful(response);
+            return card;
         }
     }
 }

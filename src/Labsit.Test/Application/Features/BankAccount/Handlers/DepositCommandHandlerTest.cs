@@ -1,11 +1,12 @@
-﻿using Bogus;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Labsit.Application.Common.Constants;
 using Labsit.Application.Features.BankAccount.Commands;
 using Labsit.Application.Features.BankAccount.Handlers;
+using Labsit.Application.Features.BankAccount.Validators;
 using Labsit.Domain.Contracts.Repositories;
 using Labsit.Domain.Enums;
 using Labsit.Infrastructure.Repositories;
+using Labsit.Test._Builders;
 using Labsit.Test.Fixtures;
 using NSubstitute;
 
@@ -19,16 +20,13 @@ namespace Labsit.Test.Application.Features.BankAccount.Handlers
         public async Task Add_DebitValidCommand_ShouldReturnSucessResult()
         {
             //Arrange
-            var depositAmount = 150m;
-
-            var command = new Faker<DepositCommand>()
-                .RuleFor(command => command.BankAccountId, 1)
-                .RuleFor(command => command.Value, depositAmount)
-                .RuleFor(command => command.TransactionType, ETransactionType.Debit)
-                .Generate();
+            var bankAccount = new BankAccountBuilder().WithFunds().AddBalance(150).Build();
+            var command = new BankAccountBuilder()
+                .WithFunds()
+                .AddBalance(150)
+                .BuildDepositCommand(ETransactionType.Debit);
 
             var unitOfWork = new UnitOfWork(fixture.Context);
-
             var handler = new DepositCommandHandler(_validator, new BankAccountRepository(fixture.Context), unitOfWork);
 
             // Act
@@ -38,23 +36,20 @@ namespace Labsit.Test.Application.Features.BankAccount.Handlers
             act.Should().NotBeNull();
             act.Success.Should().BeTrue();
             act.Message.Should().Be(Messages.SUCCESSUL_OPERATION);
-            act.Data.Balance.Should().Be(depositAmount);
+            act.Data.Balance.Should().Be(bankAccount.Balance);
         }
 
         [Fact]
         public async Task Add_CreditValidCommand_ShouldReturnSucessResult()
         {
             //Arrange
-            var depositAmount = 330m;
-
-            var command = new Faker<DepositCommand>()
-                .RuleFor(command => command.BankAccountId, 1)
-                .RuleFor(command => command.Value, depositAmount)
-                .RuleFor(command => command.TransactionType, ETransactionType.Credit)
-                .Generate();
+            var bankAccount = new BankAccountBuilder().WithFunds().AddCredit(150).Build();
+            var command = new BankAccountBuilder()
+                .WithFunds()
+                .AddCredit(150)
+                .BuildDepositCommand(ETransactionType.Credit);
 
             var unitOfWork = new UnitOfWork(fixture.Context);
-
             var handler = new DepositCommandHandler(_validator, new BankAccountRepository(fixture.Context), unitOfWork);
 
             // Act
@@ -64,8 +59,8 @@ namespace Labsit.Test.Application.Features.BankAccount.Handlers
             act.Should().NotBeNull();
             act.Success.Should().BeTrue();
             act.Message.Should().Be(Messages.SUCCESSUL_OPERATION);
-            act.Data.TotalCreditLimit.Should().Be(depositAmount);
-            act.Data.AvailableCreditLimit.Should().Be(depositAmount);
+            act.Data.TotalCreditLimit.Should().Be(bankAccount.TotalCreditLimit);
+            act.Data.AvailableCreditLimit.Should().Be(bankAccount.AvailableCreditLimit);
         }
 
         [Fact]
@@ -78,7 +73,7 @@ namespace Labsit.Test.Application.Features.BankAccount.Handlers
                 Substitute.For<IUnitOfWork>());
 
             // Act
-            var act = await handler.Handle(new DepositCommand(), CancellationToken.None);
+            var act = await handler.Handle(new DepositCommand(default,default, default), CancellationToken.None);
 
             // Assert
             act.Should().NotBeNull();

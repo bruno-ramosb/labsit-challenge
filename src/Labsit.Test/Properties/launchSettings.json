@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Labsit.Test": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

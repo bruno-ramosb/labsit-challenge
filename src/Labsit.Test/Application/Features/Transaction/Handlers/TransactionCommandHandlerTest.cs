@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Labsit.Application.Common.Constants;
 using Labsit.Application.Common.Response;
-using Labsit.Application.Dtos;
 using Labsit.Application.Features.BankAccount.Commands;
 using Labsit.Application.Features.BankAccount.Responses;
 using Labsit.Application.Features.Transaction.Command;
@@ -10,6 +9,7 @@ using Labsit.Application.Features.Transaction.Handlers;
 using Labsit.Application.Features.Transaction.Validators;
 using Labsit.Domain.Enums;
 using Labsit.Infrastructure.Repositories;
+using Labsit.Test._Builders;
 using Labsit.Test.Fixtures;
 using MediatR;
 using Moq;
@@ -26,26 +26,16 @@ namespace Labsit.Test.Application.Features.Transaction.Handlers
         {
             //Arrange
             var price = 150m;
-
-            var card = fixture.GetValidCards().FirstOrDefault(x=>x.BankAccountId == 2);
-
-            var cardFaker = new Faker<CardDto>()
-                .RuleFor(x => x.Number, card.Number)
-                .RuleFor(x => x.HolderName, card.HolderName)
-                .RuleFor(x => x.Brand, card.Brand)
-                .RuleFor(x => x.ExpiryDate, card.ExpiryDate)
-                .RuleFor(x => x.VerificationCode, card.VerificationCode)
-                .RuleFor(x => x.TransactionType, ETransactionType.Debit)
-                .Generate();
-
+            var cardFaker = new CardBuilder().New().WithFunds().BuildCardDto(ETransactionType.Debit);
             var command = new Faker<CreateTransactionCommand>()
-                .RuleFor(command => command.Description, faker => faker.Commerce.ProductName())
-                .RuleFor(command => command.Price, price)
-                .RuleFor(command => command.Card, cardFaker)
-                .Generate();
+                    .CustomInstantiator(f => new CreateTransactionCommand(
+                        f.Commerce.ProductName(),
+                        price,
+                        cardFaker
+                    ))
+                    .Generate();
 
             var unitOfWork = new UnitOfWork(fixture.Context);
-
 
             var withdrawResponse = Result<WithdrawResponse>.Successful(new WithdrawResponse(2,1350,1500,1500));
 
@@ -53,7 +43,6 @@ namespace Labsit.Test.Application.Features.Transaction.Handlers
                         .ReturnsAsync(withdrawResponse);
 
             var handler = new CreateTransactionCommandHandler(_validator, _mockMediator.Object, new CardRepository(fixture.Context));
-
 
             // Act
             var act = await handler.Handle(command, CancellationToken.None);
@@ -69,23 +58,14 @@ namespace Labsit.Test.Application.Features.Transaction.Handlers
         {
             //Arrange
             var price = 150m;
-
-            var card = fixture.GetValidCards().FirstOrDefault(x => x.BankAccountId == 2);
-
-            var cardFaker = new Faker<CardDto>()
-                .RuleFor(x => x.Number, card.Number)
-                .RuleFor(x => x.HolderName, card.HolderName)
-                .RuleFor(x => x.Brand, card.Brand)
-                .RuleFor(x => x.ExpiryDate, card.ExpiryDate)
-                .RuleFor(x => x.VerificationCode, card.VerificationCode)
-                .RuleFor(x => x.TransactionType, ETransactionType.Credit)
-                .Generate();
-
+            var cardFaker = new CardBuilder().New().WithFunds().BuildCardDto(ETransactionType.Credit);
             var command = new Faker<CreateTransactionCommand>()
-                .RuleFor(command => command.Description, faker => faker.Commerce.ProductName())
-                .RuleFor(command => command.Price, price)
-                .RuleFor(command => command.Card, cardFaker)
-                .Generate();
+                    .CustomInstantiator(f => new CreateTransactionCommand(
+                        f.Commerce.ProductName(),
+                        price,
+                        cardFaker
+                    ))
+                    .Generate();
 
             var unitOfWork = new UnitOfWork(fixture.Context);
 

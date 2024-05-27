@@ -1,6 +1,5 @@
 ﻿using Labsit.Domain.Entities;
 using Labsit.Domain.Enums;
-using Labsit.Infrastructure.Repositories;
 
 namespace Labsit.Domain.Contracts.Repositories
 {

@@ -13,7 +13,6 @@ namespace Labsit.Application.Dtos
             VerificationCode = verificationCode;
             TransactionType = transactionType;
         }
-        public CardDto() { }
 
         public string Number { get; private set; }
         public string HolderName { get; private set; }

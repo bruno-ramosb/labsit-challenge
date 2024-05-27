@@ -13,7 +13,6 @@ namespace Labsit.Application.Features.BankAccount.Commands
             Value = value;
             TransactionType = transactionType;
         }
-        public WithdrawCommand() { }
 
         public int BankAccountId { get; private set; }
         public decimal Value { get; private set; }

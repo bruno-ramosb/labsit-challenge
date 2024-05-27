@@ -21,6 +21,7 @@ namespace Labsit.Infrastructure.Context
             base.OnConfiguring(optionsBuilder);
         }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(LabsitContext).Assembly);

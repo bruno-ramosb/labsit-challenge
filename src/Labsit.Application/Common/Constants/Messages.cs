@@ -21,11 +21,12 @@
         #endregion
 
         #region Required fields
+        public const string ID_REQUIRED = "Id é obrigatório";
         public const string NAME_REQUIRED = "O nome é obrigatório.";
         public const string TRANSCTION_TYPE_REQUIRED = "Tipo da transação é obrigatório.";
         public const string DESCRIPTION_REQUIRED = "Descrição é obrigatório.";
-        public const string BANK_ACCOUNT_ID_REQUIRED = "ID da conta bancária é obrigatório.";
-        public const string CUSTOMER_ID_REQUIRED = "ID do cliente é obrigatório";
+        public const string BANK_ACCOUNT_ID_REQUIRED = "Id da conta bancária é obrigatório.";
+        public const string CUSTOMER_ID_REQUIRED = "Id do cliente é obrigatório";
         #endregion
 
         #region Card validation
@@ -35,6 +36,7 @@
         public const string VERIFICATION_CODE_LENGHT_MUST_BE_EQUALS_3 = "Código de segurança deve conter 3 dígitos.";
         public const string BRAND_REQUIRED = "Bandeira é obrigatório.";
         public const string CARD_NUMBER_REQUIRED = "Número do cartão é obrigatório.";
+        public const string CARD_NOT_FOUND = "Cartão não encontrado.";
         public const string HOLDER_NAME_REQUIRED = "Nome do portador é obrigatório.";
         #endregion
     }
