@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "2cc404e2-0831-47c7-8eff-855465a8852b",
+		"_postman_id": "ed2c6a46-5976-4570-b4f0-a3e3db27bb9d",
 		"name": "Labsit",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "23716056",
-		"_collection_link": "https://interstellar-shadow-704703.postman.co/workspace/A~9788e6dd-b61c-4ae9-a67b-786937cf5926/collection/23716056-2cc404e2-0831-47c7-8eff-855465a8852b?action=share&source=collection_link&creator=23716056"
+		"_collection_link": "https://interstellar-shadow-704703.postman.co/workspace/A~9788e6dd-b61c-4ae9-a67b-786937cf5926/collection/23716056-ed2c6a46-5976-4570-b4f0-a3e3db27bb9d?action=share&source=collection_link&creator=23716056"
 	},
 	"item": [
 		{
@@ -31,7 +31,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"bankAccountId\": \"<integer>\",\n  \"value\": \"<double>\",\n  \"transactionType\": 2\n}",
+													"raw": "{\n    \"bankAccountId\": 1,\n    \"value\": 150,\n    \"transactionType\": 2\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -40,10 +40,12 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/api/v1/BankAccount/deposit",
+													"raw": "http://localhost:8080/api/v1/BankAccount/deposit",
+													"protocol": "http",
 													"host": [
-														"{{baseUrl}}"
+														"localhost"
 													],
+													"port": "8080",
 													"path": [
 														"api",
 														"v1",
@@ -189,20 +191,22 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{baseUrl}}/api/v1/Card/:id",
+													"raw": "http://localhost:8080/api/v1/BankAccount/:id",
+													"protocol": "http",
 													"host": [
-														"{{baseUrl}}"
+														"localhost"
 													],
+													"port": "8080",
 													"path": [
 														"api",
 														"v1",
-														"Card",
+														"BankAccount",
 														":id"
 													],
 													"variable": [
 														{
 															"key": "id",
-															"value": "<integer>",
+															"value": "1",
 															"description": "(Required) "
 														}
 													]
@@ -255,7 +259,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"customerId\": \"<integer>\"\n}",
+											"raw": "{\n  \"customerId\": 1\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -264,10 +268,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/api/v1/BankAccount",
+											"raw": "http://localhost:8080/api/v1/BankAccount",
+											"protocol": "http",
 											"host": [
-												"{{baseUrl}}"
+												"localhost"
 											],
+											"port": "8080",
 											"path": [
 												"api",
 												"v1",
@@ -331,10 +337,12 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{baseUrl}}/api/v1/Card/:id",
+													"raw": "http://localhost:8080/api/v1/Card/:id",
+													"protocol": "http",
 													"host": [
-														"{{baseUrl}}"
+														"localhost"
 													],
+													"port": "8080",
 													"path": [
 														"api",
 														"v1",
@@ -344,7 +352,7 @@
 													"variable": [
 														{
 															"key": "id",
-															"value": "<integer>",
+															"value": "1",
 															"description": "(Required) "
 														}
 													]
@@ -481,7 +489,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"name\": \"<string>\",\n  \"document\": \"<string>\",\n  \"dateOfBirth\": {\n    \"year\": \"<integer>\",\n    \"month\": \"<integer>\",\n    \"day\": \"<integer>\",\n    \"dayOfWeek\": 0,\n    \"dayOfYear\": \"<integer>\",\n    \"dayNumber\": \"<integer>\"\n  },\n  \"brand\": 1\n}",
+													"raw": "{\n  \"name\": \"Paulo Roberto Santos\",\n  \"document\": \"654.971.390-00\",\n  \"dateOfBirth\": \"2000-01-01\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -490,10 +498,12 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/api/v1/Customer/completeRegister",
+													"raw": "http://localhost:8080/api/v1/Customer/completeRegister",
+													"protocol": "http",
 													"host": [
-														"{{baseUrl}}"
+														"localhost"
 													],
+													"port": "8080",
 													"path": [
 														"api",
 														"v1",
@@ -559,7 +569,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"<string>\",\n  \"document\": \"<string>\",\n  \"dateOfBirth\": {\n    \"year\": \"<integer>\",\n    \"month\": \"<integer>\",\n    \"day\": \"<integer>\",\n    \"dayOfWeek\": 4,\n    \"dayOfYear\": \"<integer>\",\n    \"dayNumber\": \"<integer>\"\n  }\n}",
+											"raw": "{\n  \"name\": \"Paulo Roberto Santos\",\n  \"document\": \"654.971.390-00\",\n  \"dateOfBirth\": \"2000-01-01\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -568,10 +578,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/api/v1/Customer",
+											"raw": "http://localhost:8080/api/v1/Customer",
+											"protocol": "http",
 											"host": [
-												"{{baseUrl}}"
+												"localhost"
 											],
+											"port": "8080",
 											"path": [
 												"api",
 												"v1",
