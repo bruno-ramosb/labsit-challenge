@@ -10,6 +10,7 @@
         public const string CARD_ALREADY_CREATED = "Cartão já cadastrado.";
         public const string VALUE_MUST_BE_GREATER_THAN_ZERO = "Valor deve ser maior do que 0.";
         public const string INSUFFICIENT_FUNDS = "Saldo insuficiente.";
+        public const string INTERNAL_ERROR = "Ocorreu um erro inesperado.";
 
         #region Document fields
         public const string DOCUMENT_INVALID = "CPF inválido.";

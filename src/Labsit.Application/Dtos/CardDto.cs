@@ -4,7 +4,12 @@ namespace Labsit.Application.Dtos
 {
     public class CardDto
     {
-        public CardDto(string number, string holderName, ECardBrand brand, DateOnly expiryDate, string verificationCode, ETransactionType transactionType)
+        public CardDto(string number, 
+                       string holderName, 
+                       ECardBrand brand, 
+                       DateOnly expiryDate, 
+                       string verificationCode, 
+                       ETransactionType transactionType)
         {
             Number = number;
             HolderName = holderName;

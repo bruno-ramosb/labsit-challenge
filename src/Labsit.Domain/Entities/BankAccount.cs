@@ -7,7 +7,12 @@ namespace Labsit.Domain.Entities
     [Table("BankAccount", Schema = "Finance")]
     public class BankAccount : AuditableEntity<int>
     {
-        public BankAccount(int customerId,string branchCode,string accountNumber,decimal balance,decimal totalCreditLimit,decimal availableCreditLimit)
+        public BankAccount(int customerId,
+            string branchCode,
+            string accountNumber,
+            decimal balance,
+            decimal totalCreditLimit,
+            decimal availableCreditLimit)
         {
             CustomerId = customerId;
             BranchCode = branchCode;

@@ -8,7 +8,12 @@ namespace Labsit.Domain.Entities
     [Table("Card", Schema = "Finance")]
     public class Card : AuditableEntity<int>
     {
-        public Card(int bankAccountId, string number, string holderName, string verificationCode, ECardBrand brand, DateOnly expiryDate)
+        public Card(int bankAccountId, 
+                    string number, 
+                    string holderName, 
+                    string verificationCode, 
+                    ECardBrand brand, 
+                    DateOnly expiryDate)
         {
             BankAccountId = bankAccountId;
             Number = number;

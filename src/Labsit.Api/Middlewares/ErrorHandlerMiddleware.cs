@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Labsit.Application.Common.Constants;
 using Labsit.Application.Common.Response;
 using System.Net;
 using System.Net.Mime;
@@ -10,8 +11,6 @@ namespace Labsit.Api.Middlewares
         RequestDelegate next,
         ILogger<ErrorHandlerMiddleware> logger)
     {
-        private const string InternalErrorMessage = "An internal error occurred while processing your request.";
-
         public async Task Invoke(HttpContext httpContext)
         {
             try
@@ -33,7 +32,7 @@ namespace Labsit.Api.Middlewares
                         break;
                     default:
                         logger.LogError(ex, "An unexpected exception was thrown: {Message}", ex.Message);
-                        responseModel = Result<string>.Fail(InternalErrorMessage,HttpStatusCode.InternalServerError);
+                        responseModel = Result<string>.Fail(Messages.INTERNAL_ERROR, HttpStatusCode.InternalServerError);
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                 }

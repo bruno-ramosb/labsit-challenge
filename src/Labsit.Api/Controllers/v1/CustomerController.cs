@@ -15,11 +15,8 @@ namespace Labsit.Api.Controllers.v1
             (await mediator.Send(command)).ToActionResult();
 
         [HttpPost("completeRegister")]
-        public async Task<IActionResult> QuickRegister([FromBody][Required] QuickCustomerRegistrationCommand command)
-        {
-          
-            return (await mediator.Send(command)).ToActionResult(); ;
-        }
+        public async Task<IActionResult> QuickRegister([FromBody][Required] QuickCustomerRegistrationCommand command) =>
+            (await mediator.Send(command)).ToActionResult();
        
     }
 }

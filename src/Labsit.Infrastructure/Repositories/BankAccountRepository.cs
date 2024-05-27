@@ -12,8 +12,5 @@ namespace Labsit.Infrastructure.Repositories
         
         public async Task<bool> AccountNumberExists(string accountNumber) => 
             await context.BankAccounts.AnyAsync(x => x.AccountNumber == accountNumber);
-
-        public async Task<bool> BankAccountExists(int bankAccountId) => 
-            await context.BankAccounts.AnyAsync(x => x.Id == bankAccountId);
     }
 }
