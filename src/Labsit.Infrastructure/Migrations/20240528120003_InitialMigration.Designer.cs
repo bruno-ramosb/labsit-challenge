@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Labsit.Infrastructure.Migrations
 {
     [DbContext(typeof(LabsitContext))]
-    [Migration("20240527190028_InitialMigration")]
+    [Migration("20240528120003_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -24,33 +24,37 @@ namespace Labsit.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("ID");
 
                     b.Property<string>("AccountNumber")
                         .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("AccountNumber");
+                        .HasColumnName("ACCOUNTNUMBER");
 
                     b.Property<decimal>("AvailableCreditLimit")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("AVAILABLECREDITLIMIT");
 
                     b.Property<decimal>("Balance")
                         .HasColumnType("TEXT")
-                        .HasColumnName("Balance");
+                        .HasColumnName("BALANCE");
 
                     b.Property<string>("BranchCode")
                         .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("BranchCode");
+                        .HasColumnName("BRANCHCODE");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("CustomerId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("IDCUSTOMER");
 
                     b.Property<decimal>("TotalCreditLimit")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TOTALCREDITLIMIT");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
@@ -60,7 +64,7 @@ namespace Labsit.Infrastructure.Migrations
                     b.HasIndex("CustomerId")
                         .IsUnique();
 
-                    b.ToTable("BankAccount", "Finance");
+                    b.ToTable("BANKACCOUNT", "FINANCE");
                 });
 
             modelBuilder.Entity("Labsit.Domain.Entities.Card", b =>
@@ -101,7 +105,6 @@ namespace Labsit.Infrastructure.Migrations
 
                     b.Property<string>("VerificationCode")
                         .IsRequired()
-                        .HasMaxLength(3)
                         .HasColumnType("TEXT")
                         .HasColumnName("VerificationCode");
 
@@ -109,7 +112,7 @@ namespace Labsit.Infrastructure.Migrations
 
                     b.HasIndex("BankAccountId");
 
-                    b.ToTable("Card", "Finance");
+                    b.ToTable("CARD", "FINANCE");
                 });
 
             modelBuilder.Entity("Labsit.Domain.Entities.Customer", b =>
@@ -143,7 +146,7 @@ namespace Labsit.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customer", "Finance");
+                    b.ToTable("CUSTOMER", "FINANCE");
                 });
 
             modelBuilder.Entity("Labsit.Domain.Entities.BankAccount", b =>

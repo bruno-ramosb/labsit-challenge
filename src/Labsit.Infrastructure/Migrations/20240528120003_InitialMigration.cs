@@ -12,11 +12,11 @@ namespace Labsit.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "Finance");
+                name: "FINANCE");
 
             migrationBuilder.CreateTable(
-                name: "Customer",
-                schema: "Finance",
+                name: "CUSTOMER",
+                schema: "FINANCE",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -29,40 +29,40 @@ namespace Labsit.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customer", x => x.Id);
+                    table.PrimaryKey("PK_CUSTOMER", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "BankAccount",
-                schema: "Finance",
+                name: "BANKACCOUNT",
+                schema: "FINANCE",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    BranchCode = table.Column<string>(type: "TEXT", nullable: false),
-                    AccountNumber = table.Column<string>(type: "TEXT", nullable: false),
-                    Balance = table.Column<decimal>(type: "TEXT", nullable: false),
-                    TotalCreditLimit = table.Column<decimal>(type: "TEXT", nullable: false),
-                    AvailableCreditLimit = table.Column<decimal>(type: "TEXT", nullable: false),
-                    CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
+                    BRANCHCODE = table.Column<string>(type: "TEXT", nullable: false),
+                    ACCOUNTNUMBER = table.Column<string>(type: "TEXT", nullable: false),
+                    BALANCE = table.Column<decimal>(type: "TEXT", nullable: false),
+                    TOTALCREDITLIMIT = table.Column<decimal>(type: "TEXT", nullable: false),
+                    AVAILABLECREDITLIMIT = table.Column<decimal>(type: "TEXT", nullable: false),
+                    IDCUSTOMER = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BankAccount", x => x.Id);
+                    table.PrimaryKey("PK_BANKACCOUNT", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_BankAccount_Customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalSchema: "Finance",
-                        principalTable: "Customer",
+                        name: "FK_BANKACCOUNT_CUSTOMER_IDCUSTOMER",
+                        column: x => x.IDCUSTOMER,
+                        principalSchema: "FINANCE",
+                        principalTable: "CUSTOMER",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Card",
-                schema: "Finance",
+                name: "CARD",
+                schema: "FINANCE",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -71,34 +71,34 @@ namespace Labsit.Infrastructure.Migrations
                     HolderName = table.Column<string>(type: "TEXT", maxLength: 80, nullable: false),
                     Brand = table.Column<int>(type: "INTEGER", nullable: false),
                     ExpiryDate = table.Column<DateOnly>(type: "TEXT", nullable: false),
-                    VerificationCode = table.Column<string>(type: "TEXT", maxLength: 3, nullable: false),
+                    VerificationCode = table.Column<string>(type: "TEXT", nullable: false),
                     BankAccountId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Card", x => x.Id);
+                    table.PrimaryKey("PK_CARD", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Card_BankAccount_BankAccountId",
+                        name: "FK_CARD_BANKACCOUNT_BankAccountId",
                         column: x => x.BankAccountId,
-                        principalSchema: "Finance",
-                        principalTable: "BankAccount",
-                        principalColumn: "Id",
+                        principalSchema: "FINANCE",
+                        principalTable: "BANKACCOUNT",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BankAccount_CustomerId",
-                schema: "Finance",
-                table: "BankAccount",
-                column: "CustomerId",
+                name: "IX_BANKACCOUNT_IDCUSTOMER",
+                schema: "FINANCE",
+                table: "BANKACCOUNT",
+                column: "IDCUSTOMER",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Card_BankAccountId",
-                schema: "Finance",
-                table: "Card",
+                name: "IX_CARD_BankAccountId",
+                schema: "FINANCE",
+                table: "CARD",
                 column: "BankAccountId");
         }
 
@@ -106,16 +106,16 @@ namespace Labsit.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Card",
-                schema: "Finance");
+                name: "CARD",
+                schema: "FINANCE");
 
             migrationBuilder.DropTable(
-                name: "BankAccount",
-                schema: "Finance");
+                name: "BANKACCOUNT",
+                schema: "FINANCE");
 
             migrationBuilder.DropTable(
-                name: "Customer",
-                schema: "Finance");
+                name: "CUSTOMER",
+                schema: "FINANCE");
         }
     }
 }
